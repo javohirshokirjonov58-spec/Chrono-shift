@@ -16,19 +16,20 @@
     { "x": 0, "y": 0, "width": 40, "height": 720 },
     { "x": 1240, "y": 0, "width": 40, "height": 720 },
 
-    { "x": 480, "y": 480, "width": 160, "height": 120 },
-    { "x": 940, "y": 40, "width": 40, "height": 440 }
+    { "x": 260, "y": 550, "width": 70, "height": 50 },
+    { "x": 480, "y": 520, "width": 160, "height": 80 },
+    { "x": 940, "y": 40, "width": 40, "height": 480 }
   ],
   "lasers": [
-    { "id": "shield_laser", "x": 40, "y": 546, "direction": "RIGHT", "mode": "CONTINUOUS" }
+    { "id": "shield_laser", "x": 40, "y": 520, "direction": "RIGHT", "mode": "CONTINUOUS" }
   ],
   "pressurePlates": [
-    { "id": "plate_shield", "x": 540, "y": 472, "plateType": "LATCHED" }
+    { "id": "plate_shield", "x": 540, "y": 512, "plateType": "LATCHED" }
   ],
   "doors": [
-    { "id": "door_shield", "x": 940, "y": 480, "width": 40, "height": 120, "linkedTriggers": ["plate_shield"], "logicGate": "AND" }
+    { "id": "door_shield", "x": 940, "y": 520, "width": 40, "height": 80, "linkedTriggers": ["plate_shield"], "logicGate": "AND" }
   ],
   "tutorialHints": [
-    { "x": 260, "y": 480, "text": "ECHO GHOSTS OCCLUDE LASERS", "subText": "Record Echo standing at x=280 to cast a safe shadow, then jump up to the switch!" }
+    { "x": 260, "y": 480, "text": "ECHO GHOSTS OCCLUDE LASERS", "subText": "Record Echo standing on the pedestal at x=260 to block the laser, then jump to the switch!" }
   ]
 }

@@ -16,6 +16,7 @@
     { "x": 0, "y": 0, "width": 40, "height": 720 },
     { "x": 1240, "y": 0, "width": 40, "height": 720 },
 
+    { "x": 260, "y": 550, "width": 60, "height": 50 },
     { "x": 560, "y": 340, "width": 680, "height": 40 },
     { "x": 980, "y": 40, "width": 40, "height": 200 }
   ],
@@ -26,7 +27,7 @@
     { "id": "core_anchored_crate", "x": 160, "y": 560, "boxType": "ANCHORED" }
   ],
   "lasers": [
-    { "id": "core_ground_laser", "x": 40, "y": 546, "direction": "RIGHT", "mode": "CONTINUOUS" },
+    { "id": "core_ground_laser", "x": 220, "y": 520, "direction": "RIGHT", "mode": "CONTINUOUS" },
     { "id": "core_upper_pulse", "x": 880, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 1.6, "intervalOff": 0.8 }
   ],
   "movingPlatforms": [

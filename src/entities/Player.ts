@@ -14,7 +14,7 @@ export class Player extends BaseEntity {
   public static readonly ACCELERATION = 1500; // px/s^2
   public static readonly FRICTION = 1200;     // px/s^2
   public static readonly MAX_SPEED = 260;     // px/s
-  public static readonly JUMP_FORCE = -450;   // px/s
+  public static readonly JUMP_FORCE = -480;   // px/s (comfortable 117px jump height)
   public static readonly VARIABLE_JUMP_CUT = 0.5;
 
   public facing: 1 | -1 = 1;

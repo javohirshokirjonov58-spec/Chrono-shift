@@ -472,7 +472,7 @@ class ChronoShiftGame {
     PuzzleValidator.evaluate(this.plates, this.doors);
 
     // 9. Update Lasers & Raycast Occlusion
-    // Obstacles to laser raycast: static solids + closed doors + boxes + Echo + Player
+    // Obstacles to laser raycast: static solids + closed doors + boxes + Echo
     const rayObstacles: AABBBox[] = [
       ...this.physics.getStaticSolids(),
     ];
@@ -486,7 +486,7 @@ class ChronoShiftGame {
     if (this.echoGhost.isActive && this.echoGhost.isPlaying) {
       rayObstacles.push(this.echoGhost.getBox());
     }
-    rayObstacles.push(this.player.getBox());
+    // Player is the target tested against the laser beam, not an occluder
 
     for (const laser of this.lasers) {
       laser.update(worldDt);
