@@ -61,45 +61,94 @@ export class PhysicsWorld {
     let hitCeiling = false;
     let hitWall = false;
 
-    // 1. Move horizontally
-    newX += vx * dt;
-    const testBoxX: AABBBox = { x: newX, y: box.y, width: box.width, height: box.height };
+    const skin = 2; // Inset skin to prevent false collisions with adjacent orthogonal surfaces
 
-    for (const solid of allSolids) {
-      if (AABB.overlaps(testBoxX, solid)) {
-        if (vx > 0) {
-          // moving right -> hit left side of solid
-          newX = solid.x - box.width;
-          newVx = 0;
-          hitWall = true;
-        } else if (vx < 0) {
-          // moving left -> hit right side of solid
-          newX = solid.x + solid.width;
-          newVx = 0;
-          hitWall = true;
+    // 1. Move horizontally
+    if (Math.abs(vx) > 0.0001) {
+      const dx = vx * dt;
+      let targetX = box.x + dx;
+      const testY = box.y + skin;
+      const testH = Math.max(1, box.height - skin * 2);
+
+      if (vx > 0) {
+        for (const solid of allSolids) {
+          // Check vertical overlap with torso
+          if (testY < solid.y + solid.height && testY + testH > solid.y) {
+            // Must be starting to the left of the solid and moving into it
+            if (box.x + box.width <= solid.x + Math.max(2, Math.abs(dx) + 1)) {
+              if (targetX + box.width > solid.x) {
+                targetX = Math.min(targetX, solid.x - box.width);
+                newVx = 0;
+                hitWall = true;
+              }
+            }
+          }
         }
-        testBoxX.x = newX;
+      } else {
+        // vx < 0
+        for (const solid of allSolids) {
+          // Check vertical overlap with torso
+          if (testY < solid.y + solid.height && testY + testH > solid.y) {
+            // Must be starting to the right of the solid and moving into it
+            if (box.x >= solid.x + solid.width - Math.max(2, Math.abs(dx) + 1)) {
+              if (targetX < solid.x + solid.width) {
+                targetX = Math.max(targetX, solid.x + solid.width);
+                newVx = 0;
+                hitWall = true;
+              }
+            }
+          }
+        }
       }
+      newX = targetX;
     }
 
     // 2. Move vertically
-    newY += vy * dt;
-    const testBoxY: AABBBox = { x: newX, y: newY, width: box.width, height: box.height };
+    if (Math.abs(vy) > 0.0001) {
+      const dy = vy * dt;
+      let targetY = box.y + dy;
+      const testX = newX + skin;
+      const testW = Math.max(1, box.width - skin * 2);
 
-    for (const solid of allSolids) {
-      if (AABB.overlaps(testBoxY, solid)) {
-        if (vy > 0) {
-          // falling -> hit floor
-          newY = solid.y - box.height;
-          newVy = 0;
-          isGrounded = true;
-        } else if (vy < 0) {
-          // jumping -> hit ceiling
-          newY = solid.y + solid.height;
-          newVy = 0;
-          hitCeiling = true;
+      if (vy > 0) {
+        // Falling downwards
+        for (const solid of allSolids) {
+          // Check horizontal overlap with torso
+          if (testX < solid.x + solid.width && testX + testW > solid.x) {
+            // Must be starting above the solid and falling onto it
+            if (box.y + box.height <= solid.y + Math.max(2, Math.abs(dy) + 1)) {
+              if (targetY + box.height > solid.y) {
+                targetY = Math.min(targetY, solid.y - box.height);
+                newVy = 0;
+                isGrounded = true;
+              }
+            }
+          }
         }
-        testBoxY.y = newY;
+      } else {
+        // Jumping upwards
+        for (const solid of allSolids) {
+          // Check horizontal overlap with torso
+          if (testX < solid.x + solid.width && testX + testW > solid.x) {
+            // Must be starting below the solid and hitting ceiling
+            if (box.y >= solid.y + solid.height - Math.max(2, Math.abs(dy) + 1)) {
+              if (targetY < solid.y + solid.height) {
+                targetY = Math.max(targetY, solid.y + solid.height);
+                newVy = 0;
+                hitCeiling = true;
+              }
+            }
+          }
+        }
+      }
+      newY = targetY;
+    }
+
+    // 3. Grounded stability check
+    if (!isGrounded && newVy >= 0) {
+      if (this.checkGrounded({ x: newX, y: newY, width: box.width, height: box.height }, customSolids, 2)) {
+        isGrounded = true;
+        newVy = 0;
       }
     }
 

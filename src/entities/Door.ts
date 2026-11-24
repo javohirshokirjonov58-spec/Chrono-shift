@@ -79,12 +79,21 @@ export class Door extends BaseEntity {
   }
 
   /**
-   * Anti-crush check: if player is caught inside closing door, push player out
+   * Anti-crush check: if player is caught inside closing door, push player horizontally out
    */
   public resolveCrush(playerBox: AABBBox): { x: number; y: number } | null {
+    if (this.targetOpen || this.openProgress >= 0.95) return null;
     const solid = this.getSolidBox();
     if (!solid) return null;
-    return AABB.getSeparation(playerBox, solid);
+    if (!AABB.overlaps(playerBox, solid)) return null;
+
+    const playerCenterX = playerBox.x + playerBox.width / 2;
+    const doorCenterX = this.x + this.width / 2;
+    if (playerCenterX >= doorCenterX) {
+      return { x: (solid.x + solid.width) - playerBox.x + 1, y: 0 };
+    } else {
+      return { x: solid.x - (playerBox.x + playerBox.width) - 1, y: 0 };
+    }
   }
 
   public override captureSnapshot(): EntitySnapshot {
