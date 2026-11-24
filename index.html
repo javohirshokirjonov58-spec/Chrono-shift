@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CHRONO SHIFT - Time Manipulation Puzzle Platformer</title>
+  <link rel="stylesheet" href="./src/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="canvas-container">
+      <canvas id="game-canvas" width="1280" height="720"></canvas>
+      <div id="vfx-overlay"></div>
+    </div>
+
+    <!-- Mobile / Touch Controls Overlay (auto-detects or toggled) -->
+    <div id="touch-controls" class="hidden">
+      <div class="touch-group touch-left">
+        <button id="btn-touch-left" class="touch-btn" aria-label="Left">◀</button>
+        <button id="btn-touch-right" class="touch-btn" aria-label="Right">▶</button>
+      </div>
+      <div class="touch-group touch-center">
+        <button id="btn-touch-interact" class="touch-btn action" aria-label="Interact">E</button>
+        <button id="btn-touch-jump" class="touch-btn action jump" aria-label="Jump">▲</button>
+      </div>
+      <div class="touch-group touch-right">
+        <button id="btn-touch-slowmo" class="touch-btn time-btn" aria-label="Slow-Mo">SLO</button>
+        <button id="btn-touch-freeze" class="touch-btn time-btn" aria-label="Freeze">FRZ</button>
+        <button id="btn-touch-rewind" class="touch-btn time-btn rewind" aria-label="Rewind">REW</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

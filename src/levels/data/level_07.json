@@ -1,0 +1,31 @@
+{
+  "id": "level_07",
+  "number": 7,
+  "name": "Mirror Self",
+  "mechanic": "Echo / Ghost",
+  "objective": "Record your Echo with [ E ] to hold plate A, then stand on plate B yourself.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 920, "y": 40, "width": 40, "height": 480 }
+  ],
+  "pressurePlates": [
+    { "id": "plate_echo_A", "x": 380, "y": 632, "plateType": "MOMENTARY" },
+    { "id": "plate_echo_B", "x": 720, "y": 632, "plateType": "MOMENTARY" }
+  ],
+  "doors": [
+    { "id": "door_echo", "x": 920, "y": 520, "width": 40, "height": 120, "linkedTriggers": ["plate_echo_A", "plate_echo_B"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 300, "y": 480, "text": "PRESS [ E ] TO RECORD ECHO GHOST", "subText": "Walk to Plate A, wait 5 seconds, press [ E ] to finish. Then step on Plate B!" }
+  ]
+}

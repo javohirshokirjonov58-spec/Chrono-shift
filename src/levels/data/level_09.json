@@ -1,0 +1,47 @@
+{
+  "id": "level_09",
+  "number": 9,
+  "name": "Paradox Crate",
+  "mechanic": "Chrono-Anchored Box",
+  "objective": "Carry the purple Anchored Crate up, place it on the plate, then REWIND yourself down.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 40, "y": 600, "width": 400, "height": 40 },
+    { "x": 620, "y": 280, "width": 420, "height": 40 },
+    { "x": 1000, "y": 280, "width": 40, "height": 360 }
+  ],
+  "boxes": [
+    { "id": "anchored_crate", "x": 260, "y": 560, "boxType": "ANCHORED" }
+  ],
+  "movingPlatforms": [
+    {
+      "id": "crate_elevator",
+      "x": 460,
+      "y": 580,
+      "width": 120,
+      "height": 16,
+      "speed": 100,
+      "waitDuration": 1.0,
+      "waypoints": [{ "x": 460, "y": 580 }, { "x": 460, "y": 280 }]
+    }
+  ],
+  "pressurePlates": [
+    { "id": "plate_upper", "x": 860, "y": 272, "plateType": "MOMENTARY" }
+  ],
+  "doors": [
+    { "id": "door_lower", "x": 1000, "y": 520, "width": 40, "height": 120, "linkedTriggers": ["plate_upper"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 300, "y": 500, "text": "PURPLE CRATES ARE IMMUNE TO REWIND!", "subText": "Take crate up on elevator with [ E ], place on plate, then rewind yourself back down!" }
+  ]
+}

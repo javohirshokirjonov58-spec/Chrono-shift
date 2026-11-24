@@ -1,0 +1,57 @@
+{
+  "id": "level_04",
+  "number": 4,
+  "name": "Pendulum",
+  "mechanic": "Slow-Mo + Moving Platforms",
+  "objective": "Navigate counter-moving ascenders using Slow-Motion to conserve energy.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 180, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 40, "y": 600, "width": 200, "height": 40 },
+    { "x": 1060, "y": 240, "width": 180, "height": 400 }
+  ],
+  "movingPlatforms": [
+    {
+      "id": "pendulum_1",
+      "x": 300,
+      "y": 500,
+      "width": 100,
+      "height": 16,
+      "speed": 180,
+      "waitDuration": 0.1,
+      "waypoints": [{ "x": 300, "y": 520 }, { "x": 300, "y": 260 }]
+    },
+    {
+      "id": "pendulum_2",
+      "x": 560,
+      "y": 260,
+      "width": 100,
+      "height": 16,
+      "speed": 180,
+      "waitDuration": 0.1,
+      "waypoints": [{ "x": 560, "y": 260 }, { "x": 560, "y": 520 }]
+    },
+    {
+      "id": "pendulum_3",
+      "x": 820,
+      "y": 500,
+      "width": 100,
+      "height": 16,
+      "speed": 180,
+      "waitDuration": 0.1,
+      "waypoints": [{ "x": 820, "y": 520 }, { "x": 820, "y": 240 }]
+    }
+  ],
+  "tutorialHints": [
+    { "x": 200, "y": 480, "text": "TAP [ SHIFT ] IN BURSTS", "subText": "Conserve time energy between platform transfers" }
+  ]
+}

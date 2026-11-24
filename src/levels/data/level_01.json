@@ -1,0 +1,35 @@
+{
+  "id": "level_01",
+  "number": 1,
+  "name": "First Step",
+  "mechanic": "Rewind",
+  "objective": "Drop into the pit, activate the switch, and REWIND to safety.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 120, "y": 480 },
+  "exit": { "x": 1140, "y": 460, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 680, "width": 1280, "height": 40 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 40, "y": 520, "width": 340, "height": 160 },
+    { "x": 780, "y": 520, "width": 460, "height": 160 },
+
+    { "x": 380, "y": 640, "width": 400, "height": 40 },
+    { "x": 740, "y": 520, "width": 40, "height": 160 }
+  ],
+  "pressurePlates": [
+    { "id": "plate_01", "x": 560, "y": 632, "plateType": "LATCHED" }
+  ],
+  "doors": [
+    { "id": "door_01", "x": 1020, "y": 456, "width": 20, "height": 64, "linkedTriggers": ["plate_01"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 220, "y": 460, "text": "[ A / D ] Move  •  [ SPACE ] Jump", "subText": "Standard locomotion" },
+    { "x": 560, "y": 580, "text": "TRIGGER PLATE, THEN HOLD [ R ] TO REWIND!", "subText": "Rewind carries you back out of the deep pit" }
+  ]
+}

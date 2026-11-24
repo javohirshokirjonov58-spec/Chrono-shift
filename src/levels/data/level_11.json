@@ -1,0 +1,43 @@
+{
+  "id": "level_11",
+  "number": 11,
+  "name": "Double Sync",
+  "mechanic": "Echo + Moving Platforms",
+  "objective": "Send an Echo Ghost on a mobile platform across the laser field to trip the master breaker.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 240, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 40, "y": 600, "width": 260, "height": 40 },
+    { "x": 1020, "y": 300, "width": 220, "height": 340 }
+  ],
+  "movingPlatforms": [
+    {
+      "id": "shuttle_plat",
+      "x": 320,
+      "y": 540,
+      "width": 120,
+      "height": 16,
+      "speed": 120,
+      "waitDuration": 0.5,
+      "waypoints": [{ "x": 320, "y": 540 }, { "x": 860, "y": 540 }]
+    }
+  ],
+  "pressurePlates": [
+    { "id": "far_plate", "x": 880, "y": 632, "plateType": "LATCHED" }
+  ],
+  "doors": [
+    { "id": "upper_vault_door", "x": 1020, "y": 240, "width": 20, "height": 60, "linkedTriggers": ["far_plate"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 220, "y": 480, "text": "RECORD ECHO RIDING THE CARRIER", "subText": "Echo reaches the far plate, unlocking the vault door above!" }
+  ]
+}

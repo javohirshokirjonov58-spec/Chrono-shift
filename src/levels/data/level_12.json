@@ -1,0 +1,57 @@
+{
+  "id": "level_12",
+  "number": 12,
+  "name": "The Chrono Core",
+  "mechanic": "All Mechanics (Finale)",
+  "objective": "The Capstone Trial: Synchronize Echo, Anchored Crate, Freeze, and Rewind to reach the Core.",
+  "energy": {
+    "maxEnergy": 120,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 620, "y": 140, "width": 60, "height": 80 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 40, "y": 600, "width": 260, "height": 40 },
+    { "x": 980, "y": 600, "width": 260, "height": 40 },
+    { "x": 480, "y": 220, "width": 320, "height": 30 },
+    { "x": 200, "y": 420, "width": 200, "height": 20 },
+    { "x": 880, "y": 420, "width": 200, "height": 20 }
+  ],
+  "checkpoints": [
+    { "id": "core_cp_1", "x": 300, "y": 372 }
+  ],
+  "boxes": [
+    { "id": "core_anchored_crate", "x": 180, "y": 560, "boxType": "ANCHORED" }
+  ],
+  "lasers": [
+    { "id": "core_barrier_laser", "x": 40, "y": 410, "direction": "RIGHT", "mode": "CONTINUOUS" },
+    { "id": "core_pulse_laser", "x": 630, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.0, "intervalOff": 0.8 }
+  ],
+  "movingPlatforms": [
+    {
+      "id": "core_elevator_left",
+      "x": 420,
+      "y": 560,
+      "width": 100,
+      "height": 16,
+      "speed": 90,
+      "waitDuration": 0.5,
+      "waypoints": [{ "x": 420, "y": 560 }, { "x": 420, "y": 220 }]
+    }
+  ],
+  "pressurePlates": [
+    { "id": "plate_core_left", "x": 260, "y": 412, "plateType": "MOMENTARY" },
+    { "id": "plate_core_right", "x": 940, "y": 412, "plateType": "MOMENTARY" }
+  ],
+  "doors": [
+    { "id": "core_vault_door", "x": 620, "y": 140, "width": 40, "height": 80, "linkedTriggers": ["plate_core_left", "plate_core_right"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 220, "y": 520, "text": "THE CHRONO CORE AWAITS", "subText": "Deploy Echo for one terminal, use Anchored Crate + Rewind + Freeze to breach the vault!" }
+  ]
+}

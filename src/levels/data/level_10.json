@@ -1,0 +1,33 @@
+{
+  "id": "level_10",
+  "number": 10,
+  "name": "Clockwork Chamber",
+  "mechanic": "Slow-Mo + Freeze",
+  "objective": "Coordinate three timed switches using Slow-Mo and Freeze with strict energy limits.",
+  "energy": {
+    "maxEnergy": 90,
+    "isStrictBudget": true
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 380, "y": 420, "width": 40, "height": 220 },
+    { "x": 720, "y": 420, "width": 40, "height": 220 }
+  ],
+  "pressurePlates": [
+    { "id": "clock_plate_1", "x": 220, "y": 632, "plateType": "MOMENTARY" },
+    { "id": "clock_plate_2", "x": 540, "y": 632, "plateType": "MOMENTARY" }
+  ],
+  "doors": [
+    { "id": "clock_door_1", "x": 380, "y": 480, "width": 40, "height": 160, "linkedTriggers": ["clock_plate_1"], "logicGate": "AND" },
+    { "id": "clock_door_2", "x": 720, "y": 480, "width": 40, "height": 160, "linkedTriggers": ["clock_plate_2"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 240, "y": 520, "text": "STRICT ENERGY BUDGET!", "subText": "Use precise bursts of Freeze to slide past doors before energy runs out." }
+  ]
+}

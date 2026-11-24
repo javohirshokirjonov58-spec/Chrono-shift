@@ -1,0 +1,27 @@
+{
+  "id": "level_06",
+  "number": 6,
+  "name": "Frozen Beam",
+  "mechanic": "Freeze + Lasers",
+  "objective": "Wait for the laser pulse window, freeze time, and sprint through the corridor.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 }
+  ],
+  "lasers": [
+    { "id": "freeze_laser_1", "x": 450, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.5, "intervalOff": 0.5 },
+    { "id": "freeze_laser_2", "x": 650, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.5, "intervalOff": 0.5 },
+    { "id": "freeze_laser_3", "x": 850, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.5, "intervalOff": 0.5 }
+  ],
+  "tutorialHints": [
+    { "x": 260, "y": 520, "text": "LASERS SHUT OFF FOR ONLY 0.5 SECONDS", "subText": "Hit [ F ] to FREEZE while off, allowing safe passage" }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "level_08",
+  "number": 8,
+  "name": "Shadow Shield",
+  "mechanic": "Echo + Lasers",
+  "objective": "Use your Echo Ghost as a laser shield to block lethal beams.",
+  "energy": {
+    "maxEnergy": 100,
+    "isStrictBudget": false
+  },
+  "spawn": { "x": 100, "y": 560 },
+  "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
+  "solids": [
+    { "x": 0, "y": 0, "width": 1280, "height": 40 },
+    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 0, "width": 40, "height": 720 },
+    { "x": 1240, "y": 0, "width": 40, "height": 720 },
+
+    { "x": 480, "y": 420, "width": 140, "height": 220 }
+  ],
+  "lasers": [
+    { "id": "shield_laser", "x": 40, "y": 320, "direction": "RIGHT", "mode": "CONTINUOUS" },
+    { "id": "high_laser", "x": 1200, "y": 520, "direction": "LEFT", "mode": "CONTINUOUS" }
+  ],
+  "pressurePlates": [
+    { "id": "plate_shield", "x": 520, "y": 412, "plateType": "LATCHED" }
+  ],
+  "doors": [
+    { "id": "door_shield", "x": 980, "y": 480, "width": 20, "height": 160, "linkedTriggers": ["plate_shield"], "logicGate": "AND" }
+  ],
+  "tutorialHints": [
+    { "x": 260, "y": 480, "text": "ECHO GHOSTS OCCLUDE LASERS", "subText": "Record Echo standing in the laser beam to create a safe corridor" }
+  ]
+}

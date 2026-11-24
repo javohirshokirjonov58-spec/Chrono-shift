@@ -1,0 +1,32 @@
+{
+  "name": "chrono-shift",
+  "version": "1.0.0",
+  "description": "Chrono Shift - 2D Time Manipulation Puzzle Platformer",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "vite --host & electron .",
+    "electron:build": "npm run build && electron-builder"
+  },
+  "keywords": [
+    "game",
+    "puzzle-platformer",
+    "time-manipulation",
+    "rewind",
+    "slow-motion",
+    "time-freeze",
+    "echo-ghost",
+    "typescript",
+    "vite",
+    "electron"
+  ],
+  "author": "Chrono Shift Dev Team",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}
