@@ -22,16 +22,16 @@ export class InputManager {
   private static instance: InputManager | null = null;
 
   public static readonly DEFAULT_KEY_BINDINGS: KeyBindings = {
-    left: ['KeyA', 'ArrowLeft'],
-    right: ['KeyD', 'ArrowRight'],
-    up: ['KeyW', 'ArrowUp'],
-    down: ['KeyS', 'ArrowDown'],
-    jump: ['Space', 'KeyW', 'ArrowUp'],
-    slowmo: ['ShiftLeft', 'ShiftRight'],
-    rewind: ['KeyR'],
-    freeze: ['KeyF', 'KeyQ'],
-    interact: ['KeyE'],
-    pause: ['Escape', 'KeyP'],
+    left: ['KeyA', 'ArrowLeft', 'a', 'A'],
+    right: ['KeyD', 'ArrowRight', 'd', 'D'],
+    up: ['KeyW', 'ArrowUp', 'w', 'W'],
+    down: ['KeyS', 'ArrowDown', 's', 'S'],
+    jump: ['Space', 'KeyW', 'ArrowUp', 'w', 'W', ' '],
+    slowmo: ['ShiftLeft', 'ShiftRight', 'Shift'],
+    rewind: ['KeyR', 'Keyr', 'r', 'R'],
+    freeze: ['KeyF', 'Keyf', 'f', 'F', 'KeyQ', 'Keyq', 'q', 'Q'],
+    interact: ['KeyE', 'Keye', 'e', 'E'],
+    pause: ['Escape', 'KeyP', 'p', 'P'],
     debug: ['F3'],
   };
 
@@ -60,16 +60,24 @@ export class InputManager {
   private initListeners(): void {
     window.addEventListener('keydown', (e) => {
       // Prevent default scrolling for game keys
-      if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.code)) {
+      if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.code) || e.key === ' ') {
         e.preventDefault();
       }
 
-      if (!this.keyStates.get(e.code)) {
-        this.keyStates.set(e.code, true);
+      const code = e.code;
+      const key = e.key;
+      const keyLower = e.key ? e.key.toLowerCase() : '';
 
+      const wasDown = !!this.keyStates.get(code) || !!this.keyStates.get(key) || !!this.keyStates.get(keyLower);
+
+      this.keyStates.set(code, true);
+      if (key) this.keyStates.set(key, true);
+      if (keyLower) this.keyStates.set(keyLower, true);
+
+      if (!wasDown) {
         // Check which action this corresponds to
         for (const [action, keys] of Object.entries(this.bindings)) {
-          if (keys.includes(e.code)) {
+          if (keys.includes(code) || keys.includes(key) || keys.includes(keyLower)) {
             const act = action as InputAction;
             this.justPressed.set(act, true);
             this.buffers.set(act, this.BUFFER_DURATION);
@@ -79,13 +87,18 @@ export class InputManager {
     });
 
     window.addEventListener('keyup', (e) => {
-      this.keyStates.set(e.code, false);
+      const code = e.code;
+      const key = e.key;
+      const keyLower = e.key ? e.key.toLowerCase() : '';
+
+      this.keyStates.set(code, false);
+      if (key) this.keyStates.set(key, false);
+      if (keyLower) this.keyStates.set(keyLower, false);
 
       for (const [action, keys] of Object.entries(this.bindings)) {
-        if (keys.includes(e.code)) {
+        if (keys.includes(code) || keys.includes(key) || keys.includes(keyLower)) {
           const act = action as InputAction;
-          // Only release if no other bound key for this action is down
-          const anyOtherDown = keys.some((k) => k !== e.code && this.keyStates.get(k));
+          const anyOtherDown = keys.some((k) => !!this.keyStates.get(k));
           if (!anyOtherDown) {
             this.justReleased.set(act, true);
           }

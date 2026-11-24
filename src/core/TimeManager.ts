@@ -30,6 +30,7 @@ export class TimeManager {
   private currentEnergy: number;
   private currentState: TimeState = 'NORMAL';
   private regenTimer: number = 0;
+  private isFreezeToggled: boolean = false;
   private historyBuffer: HistoryBuffer;
 
   // Emergency Rewind to Survive (when dead)
@@ -59,6 +60,7 @@ export class TimeManager {
     }
     this.currentEnergy = this.config.maxEnergy;
     this.currentState = 'NORMAL';
+    this.isFreezeToggled = false;
     this.regenTimer = 0;
     this.deathRewindTimer = 0;
     this.historyBuffer.clear();
@@ -114,7 +116,17 @@ export class TimeManager {
   public updateInputs(input: InputManager, isPlayerDead: boolean): void {
     const prevState = this.currentState;
 
+    // Toggle Freeze on press
+    if (input.wasPressed('freeze')) {
+      if (this.isFreezeToggled) {
+        this.isFreezeToggled = false;
+      } else if (this.currentEnergy > 5) {
+        this.isFreezeToggled = true;
+      }
+    }
+
     if (isPlayerDead) {
+      this.isFreezeToggled = false;
       // During death window, only rewind is allowed!
       if (input.isDown('rewind') && this.currentEnergy > 0 && this.historyBuffer.getCount() > 0) {
         this.currentState = 'REWIND';
@@ -128,6 +140,7 @@ export class TimeManager {
     }
 
     if (this.currentEnergy <= 0) {
+      this.isFreezeToggled = false;
       if (this.currentState !== 'NORMAL') {
         this.currentState = 'NORMAL';
         if (this.onStateChange) this.onStateChange(this.currentState, prevState);
@@ -137,9 +150,10 @@ export class TimeManager {
     }
 
     // Priority: Rewind > Freeze > Slow-Mo
+    // Rewind is active as long as player holds Rewind key and has energy & history frames
     if (input.isDown('rewind') && this.historyBuffer.getCount() > 0) {
       this.currentState = 'REWIND';
-    } else if (input.isDown('freeze')) {
+    } else if (this.isFreezeToggled || input.isDown('freeze')) {
       this.currentState = 'FREEZE';
     } else if (input.isDown('slowmo')) {
       this.currentState = 'SLOW_MO';

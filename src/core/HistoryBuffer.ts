@@ -60,6 +60,11 @@ export class HistoryBuffer {
    */
   public pop(): WorldSnapshot | null {
     if (this.count === 0) return null;
+    if (this.count === 1) {
+      // Hold on to the earliest snapshot so holding Rewind keeps holding the position without dropping to 0
+      const prevIndex = (this.head - 1 + this.capacity) % this.capacity;
+      return this.buffer[prevIndex];
+    }
 
     const prevIndex = (this.head - 1 + this.capacity) % this.capacity;
     const snapshot = this.buffer[prevIndex];

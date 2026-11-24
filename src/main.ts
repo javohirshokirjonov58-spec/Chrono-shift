@@ -214,7 +214,7 @@ class ChronoShiftGame {
     this.exitBox = loaded.exitBox;
 
     // Capture initial frame into history
-    this.captureWorldSnapshot();
+    this.timeManager.getHistoryBuffer().push(this.captureWorldSnapshot());
   }
 
   private getAllEntities(): BaseEntity[] {
@@ -348,7 +348,15 @@ class ChronoShiftGame {
 
     // 2. REWIND LOGIC
     if (timeState === 'REWIND') {
-      const pastSnapshot = this.timeManager.getHistoryBuffer().pop();
+      const count = this.timeManager.getHistoryBuffer().getCount();
+      // Pop 2 frames per tick for snappy 2x rewind playback if enough frames exist
+      const popCount = count > 3 ? 2 : 1;
+      let pastSnapshot: WorldSnapshot | null = null;
+      for (let p = 0; p < popCount; p++) {
+        const s = this.timeManager.getHistoryBuffer().pop();
+        if (s) pastSnapshot = s;
+      }
+
       if (pastSnapshot) {
         this.restoreWorldSnapshot(pastSnapshot);
         // If player was dead and rewinds before death, clear death state!
@@ -494,6 +502,14 @@ class ChronoShiftGame {
         this.vfx.addSparks(this.player.x + this.player.width / 2, this.player.y + this.player.height / 2, '#ff3366', 20);
         break;
       }
+    }
+
+    // Check pit fall / bottom void death
+    if (!this.player.isDead && this.player.y > 660) {
+      this.player.kill();
+      this.timeManager.triggerDeath();
+      this.sound.playDeath();
+      this.vfx.addSparks(this.player.x + this.player.width / 2, this.player.y, '#ff3366', 16);
     }
 
     // 10. Checkpoints
