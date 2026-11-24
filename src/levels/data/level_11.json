@@ -3,41 +3,42 @@
   "number": 11,
   "name": "Double Sync",
   "mechanic": "Echo + Moving Platforms",
-  "objective": "Send an Echo Ghost on a mobile platform across the laser field to trip the master breaker.",
+  "objective": "Send Echo across the moving carrier to trigger the remote breaker.",
   "energy": {
     "maxEnergy": 100,
     "isStrictBudget": false
   },
   "spawn": { "x": 100, "y": 560 },
-  "exit": { "x": 1140, "y": 240, "width": 40, "height": 60 },
+  "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
   "solids": [
     { "x": 0, "y": 0, "width": 1280, "height": 40 },
-    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 680, "width": 1280, "height": 40 },
     { "x": 0, "y": 0, "width": 40, "height": 720 },
     { "x": 1240, "y": 0, "width": 40, "height": 720 },
 
-    { "x": 40, "y": 600, "width": 260, "height": 40 },
-    { "x": 1020, "y": 300, "width": 220, "height": 340 }
+    { "x": 40, "y": 600, "width": 240, "height": 80 },
+    { "x": 740, "y": 600, "width": 500, "height": 80 },
+    { "x": 1000, "y": 40, "width": 40, "height": 440 }
   ],
   "movingPlatforms": [
     {
       "id": "shuttle_plat",
-      "x": 320,
-      "y": 540,
-      "width": 120,
-      "height": 16,
-      "speed": 120,
-      "waitDuration": 0.5,
-      "waypoints": [{ "x": 320, "y": 540 }, { "x": 860, "y": 540 }]
+      "x": 280,
+      "y": 600,
+      "width": 140,
+      "height": 20,
+      "speed": 130,
+      "waitDuration": 0.6,
+      "waypoints": [{ "x": 280, "y": 600 }, { "x": 680, "y": 600 }]
     }
   ],
   "pressurePlates": [
-    { "id": "far_plate", "x": 880, "y": 632, "plateType": "LATCHED" }
+    { "id": "far_plate", "x": 840, "y": 592, "plateType": "LATCHED" }
   ],
   "doors": [
-    { "id": "upper_vault_door", "x": 1020, "y": 240, "width": 20, "height": 60, "linkedTriggers": ["far_plate"], "logicGate": "AND" }
+    { "id": "door_11", "x": 1000, "y": 480, "width": 40, "height": 120, "linkedTriggers": ["far_plate"], "logicGate": "AND" }
   ],
   "tutorialHints": [
-    { "x": 220, "y": 480, "text": "RECORD ECHO RIDING THE CARRIER", "subText": "Echo reaches the far plate, unlocking the vault door above!" }
+    { "x": 200, "y": 500, "text": "RECORD ECHO RIDING THE CARRIER", "subText": "Echo reaches the far island and trips the latch switch to open the vault door!" }
   ]
 }

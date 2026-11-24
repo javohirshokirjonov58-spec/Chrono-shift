@@ -3,7 +3,7 @@
   "number": 5,
   "name": "Absolute Zero",
   "mechanic": "Time Freeze",
-  "objective": "Step on the momentary plate to open the door, then FREEZE time before it shuts.",
+  "objective": "Stand on the momentary plate, then FREEZE time with [ F ] to sprint through the gate.",
   "energy": {
     "maxEnergy": 100,
     "isStrictBudget": false
@@ -12,20 +12,19 @@
   "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
   "solids": [
     { "x": 0, "y": 0, "width": 1280, "height": 40 },
-    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 600, "width": 1280, "height": 120 },
     { "x": 0, "y": 0, "width": 40, "height": 720 },
     { "x": 1240, "y": 0, "width": 40, "height": 720 },
 
-    { "x": 760, "y": 40, "width": 40, "height": 460 },
-    { "x": 760, "y": 580, "width": 40, "height": 60 }
+    { "x": 720, "y": 40, "width": 40, "height": 440 }
   ],
   "pressurePlates": [
-    { "id": "plate_freeze", "x": 360, "y": 632, "plateType": "MOMENTARY" }
+    { "id": "plate_freeze", "x": 340, "y": 592, "plateType": "MOMENTARY" }
   ],
   "doors": [
-    { "id": "door_freeze", "x": 760, "y": 500, "width": 40, "height": 80, "linkedTriggers": ["plate_freeze"], "logicGate": "AND" }
+    { "id": "door_freeze", "x": 720, "y": 480, "width": 40, "height": 120, "linkedTriggers": ["plate_freeze"], "logicGate": "AND" }
   ],
   "tutorialHints": [
-    { "x": 360, "y": 560, "text": "PRESS [ F ] (OR Q) TO FREEZE TIME!", "subText": "Stand on plate until door opens, freeze time, then run through" }
+    { "x": 340, "y": 520, "text": "PRESS [ F ] (OR Q) TO FREEZE TIME!", "subText": "Stand on plate until door opens, freeze time, then sprint through" }
   ]
 }

@@ -3,7 +3,7 @@
   "number": 6,
   "name": "Frozen Beam",
   "mechanic": "Freeze + Lasers",
-  "objective": "Wait for the laser pulse window, freeze time, and sprint through the corridor.",
+  "objective": "Wait for the laser pulse gap, freeze time with [ F ], and sprint through safely.",
   "energy": {
     "maxEnergy": 100,
     "isStrictBudget": false
@@ -12,16 +12,16 @@
   "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
   "solids": [
     { "x": 0, "y": 0, "width": 1280, "height": 40 },
-    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 600, "width": 1280, "height": 120 },
     { "x": 0, "y": 0, "width": 40, "height": 720 },
     { "x": 1240, "y": 0, "width": 40, "height": 720 }
   ],
   "lasers": [
-    { "id": "freeze_laser_1", "x": 450, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.5, "intervalOff": 0.5 },
-    { "id": "freeze_laser_2", "x": 650, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.5, "intervalOff": 0.5 },
-    { "id": "freeze_laser_3", "x": 850, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.5, "intervalOff": 0.5 }
+    { "id": "freeze_laser_1", "x": 450, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.0, "intervalOff": 0.9 },
+    { "id": "freeze_laser_2", "x": 650, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.0, "intervalOff": 0.9 },
+    { "id": "freeze_laser_3", "x": 850, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 2.0, "intervalOff": 0.9 }
   ],
   "tutorialHints": [
-    { "x": 260, "y": 520, "text": "LASERS SHUT OFF FOR ONLY 0.5 SECONDS", "subText": "Hit [ F ] to FREEZE while off, allowing safe passage" }
+    { "x": 240, "y": 520, "text": "LASERS SHUT OFF FOR 0.9 SECONDS", "subText": "Hit [ F ] to FREEZE while off, then sprint through without hazard" }
   ]
 }

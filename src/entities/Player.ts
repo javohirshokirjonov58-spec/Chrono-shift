@@ -3,26 +3,29 @@ import { PhysicsWorld } from '../physics/PhysicsWorld';
 import { InputManager } from '../core/InputManager';
 import { AABB, AABBBox } from '../physics/AABB';
 import { ChronoBox } from './ChronoBox';
+import { MovingPlatform } from './MovingPlatform';
+import { Door } from './Door';
 
 export class Player extends BaseEntity {
   public static readonly WIDTH = 24;
   public static readonly HEIGHT = 38;
 
-  // Movement physics parameters
-  public static readonly ACCELERATION = 1400; // px/s^2
-  public static readonly FRICTION = 1100;     // px/s^2
-  public static readonly MAX_SPEED = 240;     // px/s
-  public static readonly JUMP_FORCE = -420;   // px/s
+  // Movement physics parameters (responsive & solid jump curve)
+  public static readonly ACCELERATION = 1500; // px/s^2
+  public static readonly FRICTION = 1200;     // px/s^2
+  public static readonly MAX_SPEED = 260;     // px/s
+  public static readonly JUMP_FORCE = -450;   // px/s
   public static readonly VARIABLE_JUMP_CUT = 0.5;
 
   public facing: 1 | -1 = 1;
   public isGrounded: boolean = false;
   public isDead: boolean = false;
   public carriedBox: ChronoBox | null = null;
+  public currentPlatform: MovingPlatform | null = null;
 
   // Coyote time & Jump buffer
   private coyoteTimer: number = 0;
-  private readonly COYOTE_DURATION: number = 0.1; // 100ms
+  private readonly COYOTE_DURATION: number = 0.12; // 120ms
 
   // Animation states
   private animTimer: number = 0;
@@ -33,13 +36,32 @@ export class Player extends BaseEntity {
     this.timePolicy = { ...TIME_POLICY_PLAYER };
   }
 
+  public isNearBox(boxes: ChronoBox[]): boolean {
+    if (this.carriedBox) return true;
+    const reachBox: AABBBox = {
+      x: this.x - 20,
+      y: this.y - 10,
+      width: this.width + 40,
+      height: this.height + 20,
+    };
+    return boxes.some((b) => !b.isCarried && AABB.overlaps(reachBox, b.getBox()));
+  }
+
   public updateController(
     dt: number,
     input: InputManager,
     physics: PhysicsWorld,
-    boxes: ChronoBox[] = []
+    boxes: ChronoBox[] = [],
+    platforms: MovingPlatform[] = [],
+    doors: Door[] = []
   ): void {
     if (this.isDead) return;
+
+    // 0. Passenger Physics: If standing on a moving platform, follow its movement
+    if (this.currentPlatform) {
+      this.x += this.currentPlatform.vx * dt;
+      this.y += this.currentPlatform.vy * dt;
+    }
 
     // 1. Horizontal movement
     const left = input.isDown('left');
@@ -76,6 +98,7 @@ export class Player extends BaseEntity {
       this.vy = Player.JUMP_FORCE;
       this.coyoteTimer = 0;
       this.isGrounded = false;
+      this.currentPlatform = null;
     }
 
     // Variable jump height: cut jump short if space is released
@@ -102,9 +125,9 @@ export class Player extends BaseEntity {
       } else {
         // Try pick up nearby box
         const reachBox: AABBBox = {
-          x: this.x - 16,
+          x: this.x - 20,
           y: this.y - 10,
-          width: this.width + 32,
+          width: this.width + 40,
           height: this.height + 20,
         };
         for (const box of boxes) {
@@ -117,11 +140,20 @@ export class Player extends BaseEntity {
       }
     }
 
-    // 6. Solid colliders: static geometry + uncarried boxes
+    // 6. Solid colliders: static geometry + uncarried boxes + moving platforms + closed doors
     const customSolids: AABBBox[] = [];
     for (const box of boxes) {
       if (box !== this.carriedBox && !box.isCarried) {
         customSolids.push(box.getBox());
+      }
+    }
+    for (const plat of platforms) {
+      customSolids.push(plat.getBox());
+    }
+    for (const door of doors) {
+      const solid = door.getSolidBox();
+      if (solid) {
+        customSolids.push(solid);
       }
     }
 
@@ -139,6 +171,23 @@ export class Player extends BaseEntity {
     this.vx = result.vx;
     this.vy = result.vy;
     this.isGrounded = result.isGrounded;
+
+    // Check if grounded on a moving platform
+    this.currentPlatform = null;
+    if (this.isGrounded) {
+      const feetBox: AABBBox = {
+        x: this.x + 2,
+        y: this.y + this.height,
+        width: this.width - 4,
+        height: 3,
+      };
+      for (const plat of platforms) {
+        if (AABB.overlaps(feetBox, plat.getBox())) {
+          this.currentPlatform = plat;
+          break;
+        }
+      }
+    }
 
     // Update carried box position above player head
     if (this.carriedBox) {

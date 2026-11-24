@@ -80,6 +80,12 @@ export class PressurePlate extends BaseEntity {
 
   public override restoreSnapshot(snapshot: EntitySnapshot): void {
     super.restoreSnapshot(snapshot);
+    // Once a LATCHED puzzle switch is activated in a chamber, it remains latched during rewind
+    // so the player's rewind-puzzle solution remains valid
+    if (this.plateType === 'LATCHED' && this.isPressed) {
+      this.depressProgress = 1;
+      return;
+    }
     this.isPressed = (snapshot.stateFlags & 1) !== 0;
     this.depressProgress = snapshot.customTimer;
   }

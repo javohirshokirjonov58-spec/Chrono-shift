@@ -3,13 +3,13 @@
   "number": 2,
   "name": "Shattered Bridge",
   "mechanic": "Rewind",
-  "objective": "Cross the perilous chasm, trigger the gate latch, and rewind before falling.",
+  "objective": "Cross via the mobile platform, trigger the gate latch, and use Rewind if you fall.",
   "energy": {
     "maxEnergy": 100,
     "isStrictBudget": false
   },
   "spawn": { "x": 100, "y": 480 },
-  "exit": { "x": 1140, "y": 340, "width": 40, "height": 60 },
+  "exit": { "x": 1140, "y": 460, "width": 40, "height": 60 },
   "solids": [
     { "x": 0, "y": 0, "width": 1280, "height": 40 },
     { "x": 0, "y": 680, "width": 1280, "height": 40 },
@@ -17,28 +17,38 @@
     { "x": 1240, "y": 0, "width": 40, "height": 720 },
 
     { "x": 40, "y": 520, "width": 240, "height": 160 },
-    { "x": 680, "y": 560, "width": 120, "height": 120 },
-    { "x": 1060, "y": 400, "width": 180, "height": 280 }
+    { "x": 660, "y": 520, "width": 200, "height": 160 },
+    { "x": 1020, "y": 520, "width": 220, "height": 160 }
   ],
   "movingPlatforms": [
     {
-      "id": "fast_bridge",
-      "x": 340,
+      "id": "fast_bridge_1",
+      "x": 300,
       "y": 520,
-      "width": 100,
-      "height": 16,
-      "speed": 160,
-      "waitDuration": 0.2,
-      "waypoints": [{ "x": 340, "y": 520 }, { "x": 540, "y": 520 }]
+      "width": 140,
+      "height": 20,
+      "speed": 140,
+      "waitDuration": 0.4,
+      "waypoints": [{ "x": 300, "y": 520 }, { "x": 500, "y": 520 }]
+    },
+    {
+      "id": "fast_bridge_2",
+      "x": 880,
+      "y": 520,
+      "width": 120,
+      "height": 20,
+      "speed": 120,
+      "waitDuration": 0.3,
+      "waypoints": [{ "x": 880, "y": 520 }, { "x": 980, "y": 520 }]
     }
   ],
   "pressurePlates": [
-    { "id": "plate_bridge", "x": 720, "y": 552, "plateType": "LATCHED" }
+    { "id": "plate_bridge", "x": 750, "y": 512, "plateType": "LATCHED" }
   ],
   "doors": [
-    { "id": "door_bridge", "x": 1060, "y": 336, "width": 20, "height": 64, "linkedTriggers": ["plate_bridge"], "logicGate": "AND" }
+    { "id": "door_bridge", "x": 1040, "y": 400, "width": 24, "height": 120, "linkedTriggers": ["plate_bridge"], "logicGate": "AND" }
   ],
   "tutorialHints": [
-    { "x": 200, "y": 440, "text": "JUMP ACROSS MOVING PLATFORMS", "subText": "Use Rewind if you miss the ledge!" }
+    { "x": 200, "y": 460, "text": "RIDE PLATFORMS & TRIGGER THE SWITCH", "subText": "Hold [ R ] to rewind if you fall off!" }
   ]
 }

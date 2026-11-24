@@ -12,16 +12,16 @@
   "exit": { "x": 1140, "y": 540, "width": 40, "height": 60 },
   "solids": [
     { "x": 0, "y": 0, "width": 1280, "height": 40 },
-    { "x": 0, "y": 640, "width": 1280, "height": 80 },
+    { "x": 0, "y": 600, "width": 1280, "height": 120 },
     { "x": 0, "y": 0, "width": 40, "height": 720 },
     { "x": 1240, "y": 0, "width": 40, "height": 720 }
   ],
   "lasers": [
-    { "id": "pulse_laser_1", "x": 420, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 0.8, "intervalOff": 0.4 },
-    { "id": "pulse_laser_2", "x": 640, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 0.8, "intervalOff": 0.4 },
-    { "id": "pulse_laser_3", "x": 860, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 0.8, "intervalOff": 0.4 }
+    { "id": "pulse_laser_1", "x": 400, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 1.2, "intervalOff": 0.8 },
+    { "id": "pulse_laser_2", "x": 660, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 1.2, "intervalOff": 0.8 },
+    { "id": "pulse_laser_3", "x": 920, "y": 40, "direction": "DOWN", "mode": "PULSATING", "intervalOn": 1.2, "intervalOff": 0.8 }
   ],
   "tutorialHints": [
-    { "x": 260, "y": 520, "text": "HOLD [ SHIFT ] FOR SLOW-MOTION (0.25x WORLD)", "subText": "Cross during the laser pulse gap" }
+    { "x": 240, "y": 520, "text": "HOLD [ SHIFT ] FOR SLOW-MOTION (0.25x WORLD)", "subText": "Cross during laser off windows, pause in safe pockets between lasers" }
   ]
 }

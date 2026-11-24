@@ -1,6 +1,8 @@
 import { BaseEntity, EntitySnapshot, TIME_POLICY_DEFAULT, TIME_POLICY_ANCHORED } from './BaseEntity';
 import { PhysicsWorld } from '../physics/PhysicsWorld';
-import { AABBBox } from '../physics/AABB';
+import { AABB, AABBBox } from '../physics/AABB';
+import { MovingPlatform } from './MovingPlatform';
+import { Door } from './Door';
 
 export type BoxType = 'NORMAL' | 'ANCHORED';
 
@@ -10,6 +12,7 @@ export class ChronoBox extends BaseEntity {
   public boxType: BoxType;
   public isCarried: boolean = false;
   public isGrounded: boolean = false;
+  public currentPlatform: MovingPlatform | null = null;
 
   constructor(id: string, x: number, y: number, boxType: BoxType = 'NORMAL') {
     super(id, x, y, ChronoBox.SIZE, ChronoBox.SIZE);
@@ -22,11 +25,24 @@ export class ChronoBox extends BaseEntity {
     }
   }
 
-  public updatePhysics(dt: number, physics: PhysicsWorld, otherBoxes: ChronoBox[] = []): void {
+  public updatePhysics(
+    dt: number,
+    physics: PhysicsWorld,
+    otherBoxes: ChronoBox[] = [],
+    platforms: MovingPlatform[] = [],
+    doors: Door[] = []
+  ): void {
     if (this.isCarried) {
       this.vx = 0;
       this.vy = 0;
+      this.currentPlatform = null;
       return;
+    }
+
+    // Follow moving platform if resting on one
+    if (this.currentPlatform) {
+      this.x += this.currentPlatform.vx * dt;
+      this.y += this.currentPlatform.vy * dt;
     }
 
     // Apply gravity
@@ -42,12 +58,19 @@ export class ChronoBox extends BaseEntity {
       this.vx = Math.min(0, this.vx + 800 * dt);
     }
 
-    // Collide against other non-carried boxes
+    // Collide against other non-carried boxes + platforms + doors
     const solids: AABBBox[] = [];
     for (const b of otherBoxes) {
       if (b !== this && !b.isCarried) {
         solids.push(b.getBox());
       }
+    }
+    for (const p of platforms) {
+      solids.push(p.getBox());
+    }
+    for (const d of doors) {
+      const solid = d.getSolidBox();
+      if (solid) solids.push(solid);
     }
 
     const res = physics.moveAndSlide(this.getBox(), this.vx, this.vy, dt, solids);
@@ -56,6 +79,23 @@ export class ChronoBox extends BaseEntity {
     this.vx = res.vx;
     this.vy = res.vy;
     this.isGrounded = res.isGrounded;
+
+    // Check if resting on a moving platform
+    this.currentPlatform = null;
+    if (this.isGrounded) {
+      const bottomBox: AABBBox = {
+        x: this.x + 2,
+        y: this.y + this.height,
+        width: this.width - 4,
+        height: 3,
+      };
+      for (const p of platforms) {
+        if (AABB.overlaps(bottomBox, p.getBox())) {
+          this.currentPlatform = p;
+          break;
+        }
+      }
+    }
   }
 
   public update(dt: number): void {

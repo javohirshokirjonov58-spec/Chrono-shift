@@ -301,6 +301,20 @@ class ChronoShiftGame {
     this.debug.update();
 
     if (this.menus.currentState !== 'PLAYING') {
+      if (this.menus.currentState === 'LEVEL_COMPLETE') {
+        if (this.input.wasPressed('jump') || this.input.wasPressed('interact')) {
+          this.menus.onNextLevel?.();
+        }
+      } else if (this.menus.currentState === 'PAUSED') {
+        if (this.input.wasPressed('pause') || this.input.wasPressed('jump')) {
+          this.menus.onResume?.();
+        }
+      } else if (this.menus.currentState === 'MAIN_MENU') {
+        if (this.input.wasPressed('jump') || this.input.wasPressed('interact')) {
+          const save = SaveManager.load();
+          this.menus.onStartLevel?.(save.unlockedLevel || 1);
+        }
+      }
       this.input.update(dt);
       return;
     }
@@ -365,13 +379,14 @@ class ChronoShiftGame {
       return;
     }
 
-    // Echo ghost toggle recording via E key (if level supports it)
-    if (this.input.wasPressed('interact')) {
+    // Echo ghost toggle recording via E key (if not picking up or dropping a box)
+    const isInteractingWithBox = this.player.isNearBox(this.boxes);
+    if (this.input.wasPressed('interact') && !isInteractingWithBox) {
       if (this.echoGhost.isRecording) {
         this.echoGhost.finishRecording();
         this.sound.playClick();
-      } else if (!this.echoGhost.isPlaying && !this.player.carriedBox) {
-        // If not carrying a box, start Echo recording
+      } else {
+        // Start fresh Echo recording (replaces old one if already playing)
         this.echoGhost.startRecording(this.player, 600);
         this.sound.playClick();
       }
@@ -393,20 +408,30 @@ class ChronoShiftGame {
       plat.update(worldDt);
     }
 
-    // 5. Update Boxes
-    for (const box of this.boxes) {
-      const boxDt = box.timePolicy.isImmune ? dt : worldDt;
-      box.updatePhysics(boxDt, this.physics, this.boxes);
-    }
-
-    // 6. Update Player Controller
-    const playerDt = dt * playerDtScale;
-    this.player.updateController(playerDt, this.input, this.physics, this.boxes);
-
-    // Dynamic Solid colliders: Closed doors
+    // 5. Update Doors (evaluate opening/closing animations)
     for (const door of this.doors) {
       door.update(worldDt);
-      // Anti-crush resolution
+    }
+
+    // 6. Update Boxes
+    for (const box of this.boxes) {
+      const boxDt = box.timePolicy.isImmune ? dt : worldDt;
+      box.updatePhysics(boxDt, this.physics, this.boxes, this.platforms, this.doors);
+    }
+
+    // 7. Update Player Controller (incorporates moving platforms & solid doors)
+    const playerDt = dt * playerDtScale;
+    this.player.updateController(
+      playerDt,
+      this.input,
+      this.physics,
+      this.boxes,
+      this.platforms,
+      this.doors
+    );
+
+    // Anti-crush resolution for doors
+    for (const door of this.doors) {
       const sep = door.resolveCrush(this.player.getBox());
       if (sep) {
         this.player.x += sep.x;
